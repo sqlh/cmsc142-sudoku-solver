@@ -1,0 +1,47 @@
+public boolean solve(int num){
+        try{
+            getMatrix(num);
+        }catch(IOException ex){
+        }
+        return resolve(0, 0, this.array1.getArray());
+    }
+
+    private boolean resolve(int i, int j, int[][] cells){
+        if (i == array1.getDimension()) {
+            i = 0;
+            if (++j == array1.getDimension())
+                return true;
+        }
+        if (array1.getXY(i, j) != 0)  // skip filled cells
+            return resolve(i+1,j,this.array1.getArray());
+
+        for (int val = 1; val <= array1.getDimension(); ++val) {
+            if (legal(i,j,val,cells)) {
+                this.array1.setXY(i, j, val);
+                //cells[i][j] = val;
+                if (resolve(i+1,j,this.array1.getArray()))
+                    return true;
+            }
+        }
+        this.array1.setXY(i, j, 0); // reset on backtrack
+        return false;
+    }
+    
+    private boolean legal(int i, int j, int val, int[][] cells) {
+        for (int k = 0; k < array1.getDimension(); ++k)  // row
+            if (val == array1.getXY(k,j))
+                return false;
+
+        for (int k = 0; k < array1.getDimension(); ++k) // col
+            if (val == array1.getXY(i,k))
+                return false;
+
+        int boxRowOffset = (i / array1.getRoot())*array1.getRoot();
+        int boxColOffset = (j / array1.getRoot())*array1.getRoot();
+        for (int k = 0; k < array1.getRoot(); ++k) // box
+            for (int m = 0; m < array1.getRoot(); ++m)
+                if (val == array1.getXY(k+boxRowOffset,m+boxColOffset))
+                    return false;
+
+        return true; // no violations, so it's legal
+    }
