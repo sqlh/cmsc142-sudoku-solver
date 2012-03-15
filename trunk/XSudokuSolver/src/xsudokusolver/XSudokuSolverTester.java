@@ -32,6 +32,9 @@ public class XSudokuSolverTester {
         
         XSudokuSolver xs = new XSudokuSolver(filename);
         //Modify the lines below to obtain problem.
-        xs.solve(3);
+        //for(int i = 1; i <= xs.getNumbers(); i++){
+        //   xs.solve(i);
+        //}
+        xs.solve(1);
     }
 }
