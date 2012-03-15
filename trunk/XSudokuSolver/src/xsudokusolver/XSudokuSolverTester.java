@@ -35,6 +35,6 @@ public class XSudokuSolverTester {
         //for(int i = 1; i <= xs.getNumbers(); i++){
         //   xs.solve(i);
         //}
-        xs.solve(1);
+        xs.solve(2);
     }
 }
