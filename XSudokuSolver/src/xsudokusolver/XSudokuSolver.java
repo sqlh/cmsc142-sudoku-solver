@@ -162,12 +162,27 @@ public class XSudokuSolver{
     public boolean isSudokuY(Sudoku puzzle){
         boolean isSudoku = isSudoku(puzzle);
         int dim = puzzle.getDimension();
-        int toCheck1;
-        int toCheck2;
         if(dim % 2 == 0) return false;
         if(!isSudoku) return false;
         
-        // XXX SudokuY algorithm
+        for(int i = 0; i <= dim / 2; i++){
+            int toCheck1 = puzzle.getXY(i, i);
+            int toCheck2 = puzzle.getXY(i, dim - 1 - i);
+            for(int k = 0; k <= dim / 2; k++){
+                if(k != i){
+                    if(toCheck1 == puzzle.getXY(k, k)) return false;
+                    if(toCheck2 == puzzle.getXY(k, dim - 1 - k)) return false;
+                }
+            }
+        }
+        for(int i = dim /  2; i < dim; i++){
+            int toCheck1 = puzzle.getXY((dim / 2), i);
+            for(int k = dim / 2; k < dim; k++){
+                if(k != i){
+                    if(toCheck1 == puzzle.getXY((dim / 2), k)) return false;
+                }
+            }
+        }
         
         if(isSudoku) return true;
         return false;
