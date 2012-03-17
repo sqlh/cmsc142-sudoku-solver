@@ -29,6 +29,8 @@ public class XSudokuSolver{
     private int sudokuSolutions = 0;
     //The number of SudokuX solutions found in a problem in the project text file.
     private int sudokuXSolutions = 0;
+    //The number of SudokuY solutions found in a problem in the project text file.
+    private int sudokuYSolutions = 0;
     //An instance of a Sudoku problem in the project file.
     private Sudoku array;
     //The absolute path of the project text file.
@@ -138,16 +140,35 @@ public class XSudokuSolver{
         int dim = puzzle.getDimension();
         isSudoku = isSudoku(puzzle);
         if(!isSudoku) return false;
-        for(int i = 0; i < puzzle.getDimension(); i++){
+        for(int i = 0; i < dim; i++){
             int toCheck1 = puzzle.getXY(i, i);
             int toCheck2 = puzzle.getXY(i, dim - 1 - i);
-            for(int k = 0; k < puzzle.getDimension(); k++){
+            for(int k = 0; k < dim; k++){
                 if(k != i){
                     if(toCheck1 == puzzle.getXY(k, k)) return false;
                     if(toCheck2 == puzzle.getXY(k, dim - 1 - k)) return false;
                 }
             }
         }
+        if(isSudoku) return true;
+        return false;
+    }
+    
+    /***
+     * This checks if a Sudoku puzzle is a valid SudokuY puzzle or not.
+     * @param puzzle The Sudoku puzzle to be checked.
+     * @return If it is a SudokuY puzzle or not.
+     */
+    public boolean isSudokuY(Sudoku puzzle){
+        boolean isSudoku = isSudoku(puzzle);
+        int dim = puzzle.getDimension();
+        int toCheck1;
+        int toCheck2;
+        if(dim % 2 == 0) return false;
+        if(!isSudoku) return false;
+        
+        // XXX SudokuY algorithm
+        
         if(isSudoku) return true;
         return false;
     }
@@ -251,9 +272,14 @@ public class XSudokuSolver{
                 System.out.println("Solution "+this.sudokuSolutions+" found!");
             }
             if(isSudokuX(puzzle)){
-                sudokuXSolutions++;
+                this.sudokuXSolutions++;
                 System.out.println("SudokuX Solution "+
                         this.sudokuXSolutions+" found!");
+            }
+            if(isSudokuY(puzzle)){
+                this.sudokuYSolutions++;
+                System.out.println("SudokuY Solution "+
+                        this.sudokuYSolutions+" found!");
             }
             printArray(puzzle);
             System.out.println();
