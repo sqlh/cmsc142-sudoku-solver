@@ -174,15 +174,25 @@ public class XSudokuSolver{
                     if(toCheck2 == puzzle.getXY(k, dim - 1 - k)) return false;
                 }
             }
+            for(int k = (dim / 2) + 1; k < dim; k++){
+                if(toCheck1 == puzzle.getXY(k, dim/2)) return false;
+                if(toCheck2 == puzzle.getXY(k, dim/2)) return false;
+            }
         }
-        for(int i = dim /  2; i < dim; i++){
-            int toCheck1 = puzzle.getXY((dim / 2), i);
-            for(int k = dim / 2; k < dim; k++){
+        
+        for(int i = (dim / 2) + 1; i < dim; i++){
+            int toCheck1 = puzzle.getXY(i, dim/2);
+            for(int k = 0; k <= dim / 2; k++){
+                if(toCheck1 == puzzle.getXY(k, k)) return false;
+                if(toCheck1 == puzzle.getXY(k, dim - 1 - k)) return false;
+            }
+            for(int k = (dim / 2) + 1; k < dim; k++){
                 if(k != i){
-                    if(toCheck1 == puzzle.getXY((dim / 2), k)) return false;
+                    if(toCheck1 == puzzle.getXY(k, dim/2)) return false;
                 }
             }
         }
+        
         
         if(isSudoku) return true;
         return false;
@@ -253,8 +263,7 @@ public class XSudokuSolver{
             getMatrix(num);
         }catch(IOException ex){
         }
-        Sudoku puzzle = this.array;
-        resolve(puzzle, 0);
+        resolve(0);
         if(this.sudokuSolutions == 0) return false;
         return true;
     }
@@ -262,10 +271,9 @@ public class XSudokuSolver{
     /***
      * The recursive backtracking method which solves for the Sudoku puzzle. It
      * recurses on the blank cells, and tries every possible value for them.
-     * @param puzzle The Sudoku puzzle.
      * @param depth The number of Sudoku grids that are solved.
      */
-    private void resolve(Sudoku puzzle, int depth){
+    private void resolve(int depth){
         Dimension emptyCell;
         if(depth > (int) Math.pow(this.array.getDimension(), 2))
             throw new ArrayIndexOutOfBoundsException("Recursion too deep.");
@@ -282,30 +290,30 @@ public class XSudokuSolver{
         //If you cannot find any, a solution is found.
         if(emptyCell.height == this.array.getDimension() &&
                 emptyCell.width == this.array.getDimension()){
-            if(isSudoku(puzzle)){
+            if(isSudoku(this.array)){
                 this.sudokuSolutions++;
                 System.out.println("Solution "+this.sudokuSolutions+" found!");
             }
-            if(isSudokuX(puzzle)){
+            if(isSudokuX(this.array)){
                 this.sudokuXSolutions++;
                 System.out.println("SudokuX Solution "+
                         this.sudokuXSolutions+" found!");
             }
-            if(isSudokuY(puzzle)){
+            if(isSudokuY(this.array)){
                 this.sudokuYSolutions++;
                 System.out.println("SudokuY Solution "+
                         this.sudokuYSolutions+" found!");
             }
-            printArray(puzzle);
+            printArray(this.array);
             System.out.println();
             return;
         }
         
         //Else, fill the empty cell with values.
         for(int value = 1; value <= this.array.getDimension(); value++){
-            puzzle = fill(puzzle, emptyCell, value);
-            resolve(puzzle, depth + 1);
-            puzzle = fill(puzzle, emptyCell, 0);
+            fill(emptyCell, value);
+            resolve(depth + 1);
+            fill(emptyCell, 0);
         }
     }
     
@@ -315,11 +323,9 @@ public class XSudokuSolver{
      * @param puzzle The Sudoku puzzle.
      * @param emptyCell The empty cell.
      * @param value The value which will be filled in the <code>emptyCell</code>.
-     * @return The Sudoku puzzle.
      */
-    public Sudoku fill(Sudoku puzzle, Dimension emptyCell, int value){
-        puzzle.setXY(emptyCell.width, emptyCell.height, value);
-        return puzzle;
+    public void fill(Dimension emptyCell, int value){
+        this.array.setXY(emptyCell.width, emptyCell.height, value);
     }
     //</editor-fold>
     
