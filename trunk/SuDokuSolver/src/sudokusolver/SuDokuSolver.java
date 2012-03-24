@@ -206,8 +206,7 @@ public class SuDokuSolver {
     public void solve(int x, int SuDoku, int SuDokuX, int SuDokuY,
             String filepath) throws IOException, IllegalArgumentException{
         // The output stream.
-        PrintStream out =
-                new PrintStream(new FileOutputStream(new File(filepath)));
+        PrintStream out = null;
         // The flag variable for the number of non-zero variables.
         int flag = 0;
         
@@ -217,6 +216,10 @@ public class SuDokuSolver {
         this.SuDokuYSolutions = 0;
         this.problem = this.sifh.getProblem(x);
         this.solution = new SuDoku(this.problem.getDimension());
+        
+        //Initialization of the buffer variable
+        if(filepath != null)
+            out = new PrintStream(new FileOutputStream(new File(filepath)));
         
         //Determining non-zero values.
         //Printing on the buffer follows.
@@ -308,6 +311,12 @@ public class SuDokuSolver {
             }
             return;
         }
+        
+        if((this.SuDokuSolutions != 0 && this.SuDokuSolutions == SuDoku) ||
+                (this.SuDokuXSolutions == SuDokuX && this.SuDokuXSolutions != 0)
+                || (this.SuDokuYSolutions == SuDokuY && 
+                this.SuDokuYSolutions != 0) || this.SuDokuSolutions > 1000)
+            return;
         
         //Else, fill the empty cell with values.
         for(int value = 1; value <= this.problem.getDimension(); value++){

@@ -31,6 +31,7 @@ public class SuDokuSolverTester {
         //    System.out.println("Problem "+i+":");
         //    xs.solve(i, 0, 0, 0, null);
         //}
-        xs.solve(1, 1, 0, 0, "C:\\Users\\intel\\Documents\\output.txt");
+        //xs.solve(1, 0, 0, 10, "C:\\Users\\intel\\Documents\\output.txt");
+        xs.solve(1, 0, 0, 10, null);
     }
 }
