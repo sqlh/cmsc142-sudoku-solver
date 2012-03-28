@@ -9,13 +9,15 @@ import java.io.IOException;
 public class SuDokuSolverTester {
     public static void main(String[] args) throws IllegalArgumentException, 
             IOException {
-//        int generateProblem = Integer.parseInt(args[0]);
-//        int problemNumber = Integer.parseInt(args[1]);
-//        int SuDoku = Integer.parseInt(args[2]);
-//        int SuDokuX = Integer.parseInt(args[3]);
-//        int SuDokuY = Integer.parseInt(args[4]);
-//        String fileIn = args[5];
-//        String fileOut = args[6];
+        //<editor-fold defaultstate="collapsed" desc="Uncomment these to enable command line arguments">
+        //        int generateProblem = Integer.parseInt(args[0]);
+        //        int problemNumber = Integer.parseInt(args[1]);
+        //        int SuDoku = Integer.parseInt(args[2]);
+        //        int SuDokuX = Integer.parseInt(args[3]);
+        //        int SuDokuY = Integer.parseInt(args[4]);
+        //        String fileIn = args[5];
+        //        String fileOut = args[6];
+        //</editor-fold>
         
         int generateProblem = 0;
         int problemNumber = 1;
