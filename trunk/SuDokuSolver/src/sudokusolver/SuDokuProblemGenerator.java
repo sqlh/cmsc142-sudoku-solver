@@ -1,6 +1,5 @@
 package sudokusolver;
 
-import java.awt.Dimension;
 import java.util.*;
 import java.awt.Point;   
 /***
@@ -16,15 +15,14 @@ public class SuDokuProblemGenerator{
     private int[][] sudoku;
     private Random ran;
     private ArrayList<Integer> array;
-
     private int size;
     private int regionSize;
     
     SuDokuProblemGenerator(int size){
-        regionSize = size;
+        this.regionSize = size;
         this.size = size * size;
-        ran = new Random();
-        array = new ArrayList<Integer>();
+        this.ran = new Random();
+        this.array = new ArrayList<Integer>();
     }
 
     public void generate(boolean bool){
