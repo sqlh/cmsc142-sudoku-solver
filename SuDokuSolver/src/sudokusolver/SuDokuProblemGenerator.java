@@ -1,8 +1,8 @@
 package sudokusolver;
 
-import java.awt.Dimension;
-import java.util.*;
 import java.awt.Point;   
+import java.util.ArrayList;
+import java.util.Random;
 /***
  * This class generates a standard SuDoku problem and places it in a text file.
  * This initializes the first number of grids at random and solves the puzzle by
@@ -16,9 +16,9 @@ public class SuDokuProblemGenerator{
     private int[][] sudoku;
     private Random ran;
     private ArrayList<Integer> array;
-
     private int size;
     private int regionSize;
+    private SuDoku puzzle;
     
     SuDokuProblemGenerator(int size){
         regionSize = size;
@@ -47,6 +47,7 @@ public class SuDokuProblemGenerator{
                 sudoku[i][j]++;
             }
 	}
+        convertPuzzle();
     }
 
     private boolean genRow(int row){
@@ -85,8 +86,8 @@ public class SuDokuProblemGenerator{
     public int[][] getSudoku(){
         return sudoku;
     }
-	
-
+    
+    @Override
     public String toString(){
 	StringBuffer buffer = new StringBuffer(size * size * size);
         buffer.append('+');
@@ -112,5 +113,15 @@ public class SuDokuProblemGenerator{
             if(i < size -1) buffer.append('|');
         }
         return new String(buffer);
+    }
+    
+    private void convertPuzzle(){
+        this.puzzle = new SuDoku(this.size);
+        for(int i = 0; i < this.size; i++){
+            for(int j = 0; j < this.size; j++){
+                this.puzzle.setXY(i, j, this.sudoku[i][j]);
+            }
+        }
+        this.puzzle.printSuDoku();
     }
 }
