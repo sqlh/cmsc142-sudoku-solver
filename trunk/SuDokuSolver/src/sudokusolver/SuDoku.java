@@ -1,5 +1,7 @@
 package sudokusolver;
 
+import java.awt.Dimension;
+
 /***
  * This class is the basic SuDoku puzzle class. This emulates the SuDoku puzzle
  * into a three-dimensional array.
@@ -21,6 +23,9 @@ public class SuDoku {
     public SuDoku(int dimension){
         this.array = new Integer[dimension][dimension][dimension+1];
         this.dimension = dimension;
+        for(int i = 0; i < dimension; i++)
+            for(int j = 0; j < dimension; j++)
+                setXY(i, j, 0);
     }
     //</editor-fold>
     
@@ -31,8 +36,17 @@ public class SuDoku {
      * @param y The column of the cell
      * @param value The value to plug in the cell
      */
-    public void setXY(int x, int y, int value){
+    public final void setXY(int x, int y, int value){
         this.array[x][y][0] = value;
+    }
+    
+    /**
+     * Sets the x-th cell of the SuDoku puzzle to the value.
+     * @param x The cell
+     * @param value The value to plug in the cell
+     */
+    public void setXY(Dimension x, int value){
+        this.array[x.height][x.width][0] = value;
     }
     
     /**
@@ -43,6 +57,15 @@ public class SuDoku {
      */
     public int getXY(int x, int y){
         return this.array[x][y][0];
+    }
+    
+    /**
+     * Gets the value of the x-th cell of the SuDoku puzzle.
+     * @param x The cell
+     * @return The value of the x-th cell
+     */
+    public int getXY(Dimension x){
+        return this.array[x.height][x.width][0];
     }
     
     /**

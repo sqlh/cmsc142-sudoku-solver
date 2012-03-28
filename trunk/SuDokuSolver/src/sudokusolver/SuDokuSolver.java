@@ -6,6 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
+/***
+ * This class is used to solve a SuDoku puzzle. It also checks if a solution for
+ * a puzzle is a SuDokuX, SuDokuY, or just a SuDoku solution. The solutions can
+ * be outputted in a text file or in standard output, depending on the value of
+ * the <code>filepath</code> class variable.
+ * @author Princess Jane Generoso, Abraham Darius Llave, Lawrence Namuco, Rick Jason Obrero
+ */
 public class SuDokuSolver {
     //<editor-fold defaultstate="collapsed" desc="Class variables">
     // The SuDoku problem
@@ -20,6 +27,12 @@ public class SuDokuSolver {
     private int SuDokuXSolutions;
     // The number of SuDokuY solutions
     private int SuDokuYSolutions;
+    // The SuDoku solution the user want
+    private int userSuDokuSolutions;
+    // The SuDokuX solution the user wants
+    private int userSuDokuXSolutions;
+    // he SuDokuY solution the user wantss
+    private int userSuDokuYSolutions;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -33,6 +46,10 @@ public class SuDokuSolver {
         this.SuDokuSolutions = 0;
         this.SuDokuXSolutions = 0;
         this.SuDokuYSolutions = 0;
+    }
+    
+    public SuDokuSolver(SuDoku puzzle){
+        this.problem = puzzle;
     }
     //</editor-fold>
     
@@ -189,6 +206,22 @@ public class SuDokuSolver {
     }
     
     /***
+     * This method is used by the <code>SuDokuProblemGenerator</code> to solve
+     * for the random problem that is given. It returns the solved problem.
+     * @return The solved SuDoku problem
+     */
+    public SuDoku problemSolve(){
+        this.userSuDokuSolutions = 0;
+        this.userSuDokuXSolutions = 0;
+        this.userSuDokuYSolutions = 0;
+        
+        this.userSuDokuSolutions = (int) Math.random() * 16 % 5;
+        recurse(0);
+        this.problem.printSuDoku();
+        return this.problem;
+    }
+    
+    /***
      * This finds the <code>SuDoku</code>th or the <code>SuDokuX</code>th or the
      * <code>SuDokuY</code>th solution of the <code>problem</code>. The problem
      * is obtained by finding the <code>x</code>th problem of the project file
@@ -221,6 +254,11 @@ public class SuDokuSolver {
         if(filepath != null)
             out = new PrintStream(new FileOutputStream(new File(filepath)));
         
+        //Reassignment of solution flags
+        this.userSuDokuSolutions = SuDoku;
+        this.userSuDokuXSolutions = SuDokuX;
+        this.userSuDokuYSolutions = SuDokuY;
+        
         //Determining non-zero values.
         //Printing on the buffer follows.
         if(SuDoku != 0) flag++;
@@ -241,7 +279,7 @@ public class SuDokuSolver {
         
         //Recursive computation of the solution. The printing of summary
         //follows.
-        recurse(0, SuDoku, SuDokuX, SuDokuY);
+        recurse(0);
         printSummary(x);
         
         //This is generated when the user-suppllied inputs exceed that of the
@@ -282,7 +320,7 @@ public class SuDokuSolver {
      * @param SuDokuX The SuDokuX solution number
      * @param SuDokuY The SuDokuY solution number
      */
-    private void recurse(int depth, int SuDoku, int SuDokuX, int SuDokuY){
+    private void recurse(int depth){
         Dimension emptyCell;
         if(depth > (int) Math.pow(this.problem.getDimension(), 2))
             throw new ArrayIndexOutOfBoundsException("Recursion too deep.");
@@ -302,9 +340,9 @@ public class SuDokuSolver {
             if(isSuDoku()) this.SuDokuSolutions++;
             if(isSuDokuX()) this.SuDokuXSolutions++;
             if(isSuDokuY()) this.SuDokuYSolutions++;
-            if(this.SuDokuSolutions == SuDoku ||
-                    this.SuDokuXSolutions == SuDokuX ||
-                    this.SuDokuYSolutions == SuDokuY){
+            if(this.SuDokuSolutions == this.userSuDokuSolutions ||
+                    this.SuDokuXSolutions == this.SuDokuXSolutions ||
+                    this.SuDokuYSolutions == this.userSuDokuYSolutions){
                 for(int i = 0; i < this.problem.getDimension(); i++)
                     for(int j = 0; j < this.problem.getDimension(); j++)
                         this.solution.setXY(i, j, this.problem.getXY(i, j));
@@ -312,16 +350,18 @@ public class SuDokuSolver {
             return;
         }
         
-        if((this.SuDokuSolutions != 0 && this.SuDokuSolutions == SuDoku) ||
-                (this.SuDokuXSolutions == SuDokuX && this.SuDokuXSolutions != 0)
-                || (this.SuDokuYSolutions == SuDokuY && 
+        if((this.SuDokuSolutions != 0 && this.SuDokuSolutions == 
+                this.userSuDokuSolutions) ||
+                (this.SuDokuXSolutions == this.userSuDokuXSolutions && 
+                this.SuDokuXSolutions != 0)
+                || (this.SuDokuYSolutions == this.userSuDokuYSolutions && 
                 this.SuDokuYSolutions != 0) || this.SuDokuSolutions > 1000)
             return;
         
         //Else, fill the empty cell with values.
         for(int value = 1; value <= this.problem.getDimension(); value++){
             this.problem.setXY(emptyCell.width, emptyCell.height, value);
-            recurse(depth, SuDoku, SuDokuX, SuDokuY);
+            recurse(depth);
             this.problem.setXY(emptyCell.width, emptyCell.height, 0);
         }
     }

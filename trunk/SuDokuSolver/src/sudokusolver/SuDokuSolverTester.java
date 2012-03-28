@@ -1,37 +1,32 @@
 package sudokusolver;
 
 import java.io.IOException;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * This class is needed to test the SuDoku solver.
  * @author Rick Jason Obrero
  */
 public class SuDokuSolverTester {
-    public static void main(String[] args) throws IOException, 
-            IllegalArgumentException {
-        String filename = null;
-        if(args.length == 0){
-            JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "Text Files", "txt");
-            chooser.setFileFilter(filter);
-            int returnVal = chooser.showOpenDialog(null);
-            if(returnVal == JFileChooser.APPROVE_OPTION) {
-                filename = chooser.getSelectedFile().getAbsolutePath();
-            }
-        }else{
-            filename = args[0];
-        }
+    public static void main(String[] args) throws IllegalArgumentException, 
+            IOException {
+        int generateProblem = Integer.parseInt(args[0]);
+        int problemNumber = Integer.parseInt(args[1]);
+        int SuDoku = Integer.parseInt(args[2]);
+        int SuDokuX = Integer.parseInt(args[3]);
+        int SuDokuY = Integer.parseInt(args[4]);
+        String fileIn = args[5];
+        String fileOut = args[6];
         
-        SuDokuSolver xs = new SuDokuSolver(filename);
-        //Modify the lines below to obtain problem.
-        //for(int i = 1; i <= xs.getSuDokuProblemCount(); i++){
-        //    System.out.println("Problem "+i+":");
-        //    xs.solve(i, 0, 0, 0, null);
-        //}
-        //xs.solve(1, 0, 0, 10, "C:\\Users\\intel\\Documents\\output.txt");
-        xs.solve(1, 0, 0, 10, null);
+        switch (generateProblem){
+            case 0:
+                SuDokuSolver xs = new SuDokuSolver(fileIn);
+                xs.solve(1, SuDoku, SuDokuX, SuDokuY, fileOut);
+            break;
+            case 1:
+                SuDokuProblemGenerator sg = new SuDokuProblemGenerator(3);
+            break;
+            default:
+                throw new IllegalArgumentException("Wrong argument! [0,1]");
+        }
     }
 }
