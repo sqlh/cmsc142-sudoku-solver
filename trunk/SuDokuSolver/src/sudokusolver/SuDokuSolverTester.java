@@ -1,4 +1,5 @@
 package sudokusolver;
+import java.util.*;
 
 import java.io.IOException;
 
@@ -24,8 +25,10 @@ public class SuDokuSolverTester {
         int SuDoku = 1;
         int SuDokuX = 0;
         int SuDokuY = 0;
-        String fileIn = "C:\\Users\\intel\\Documents\\puzzles\\newspaper.txt";
-        String fileOut = "C:\\Users\\intel\\Documents\\puzzles\\output.txt";
+        String fileIn = "C:\\Users\\manay\\Documents\\NetBeansProjects\\trunk\\newspaper.txt";
+        String fileOut = "C:\\Users\\manay\\Documents\\NetBeansProjects\\trunk\\output.txt";
+        
+      
         
         switch (generateProblem){
             case 0:
@@ -35,10 +38,12 @@ public class SuDokuSolverTester {
             case 1:
                 SuDokuProblemGenerator sg = new SuDokuProblemGenerator(3);
                 sg.generate(true);
-                System.out.println(sg.toString());
+                System.out.print(sg);
+  
             break;
             default:
                 throw new IllegalArgumentException("Wrong argument! [0,1]");
         }
-    }
+        
+    }      
 }
