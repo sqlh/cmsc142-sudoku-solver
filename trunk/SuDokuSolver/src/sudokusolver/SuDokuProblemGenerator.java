@@ -99,7 +99,7 @@ public class SuDokuProblemGenerator {
             do{
                 int value = (int) Math.random() * 32 % 9;
                 problem.setXY(blankCell, value);
-            }while(checkCell(blankCell.height, blankCell.width) == false);
+            }while(!checkCell(blankCell.height, blankCell.width));
         }
         this.problem.printSuDoku();
         //solve = new SuDokuSolver(this.problem);

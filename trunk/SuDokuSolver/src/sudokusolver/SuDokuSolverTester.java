@@ -20,7 +20,7 @@ public class SuDokuSolverTester {
         switch (generateProblem){
             case 0:
                 SuDokuSolver xs = new SuDokuSolver(fileIn);
-                xs.solve(1, SuDoku, SuDokuX, SuDokuY, fileOut);
+                xs.solve(problemNumber, SuDoku, SuDokuX, SuDokuY, fileOut);
             break;
             case 1:
                 SuDokuProblemGenerator sg = new SuDokuProblemGenerator(3);
