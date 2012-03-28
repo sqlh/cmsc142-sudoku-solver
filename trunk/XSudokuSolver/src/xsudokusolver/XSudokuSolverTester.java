@@ -16,7 +16,7 @@ public class XSudokuSolverTester {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        String filename = null;
+        /*String filename = null;
         if(args.length == 0){
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -29,13 +29,17 @@ public class XSudokuSolverTester {
         }else{
             filename = args[0];
         }
+        */
+        //XSudokuSolver xs = new XSudokuSolver(filename);
+        SudokuGenerator xg = new SudokuGenerator(3);
         
-        XSudokuSolver xs = new XSudokuSolver(filename);
+        xg.generate(true);
+        System.out.print(xg);
         //Modify the lines below to obtain problem.
         //for(int i = 1; i <= xs.getNumbers(); i++){
         //    System.out.println("Problem "+i+":");
         //    xs.solve(i);
         //}
-        xs.solve(4);
+        //xs.solve(4);
     }
 }
