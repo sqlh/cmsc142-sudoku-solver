@@ -19,7 +19,7 @@ public class SuDokuSolverTester {
         //        String fileOut = args[6];
         //</editor-fold>
         
-        int generateProblem = 0;
+        int generateProblem = 1;
         int problemNumber = 1;
         int SuDoku = 1;
         int SuDokuX = 0;
@@ -34,6 +34,8 @@ public class SuDokuSolverTester {
             break;
             case 1:
                 SuDokuProblemGenerator sg = new SuDokuProblemGenerator(3);
+                sg.generate(true);
+                System.out.println(sg.toString());
             break;
             default:
                 throw new IllegalArgumentException("Wrong argument! [0,1]");
