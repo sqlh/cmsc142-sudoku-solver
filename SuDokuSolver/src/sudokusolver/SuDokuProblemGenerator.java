@@ -41,8 +41,6 @@ public class SuDokuProblemGenerator{
         if(bool) 
             while(current % regionSize != 0) temp[current--] = 0;			
         temp[current] = 0;
-        if(bool) 
-                System.out.println(". Starting over with row: "  + (current+1) + ".");
         }
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
