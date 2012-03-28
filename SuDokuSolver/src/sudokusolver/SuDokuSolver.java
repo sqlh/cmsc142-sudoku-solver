@@ -242,6 +242,7 @@ public class SuDokuSolver {
         PrintStream out = null;
         // The flag variable for the number of non-zero variables.
         int flag = 0;
+        String tab = "     ";
         
         // Re-initialization of class variables.
         this.SuDokuSolutions = 0;
@@ -265,22 +266,28 @@ public class SuDokuSolver {
         if(SuDokuX != 0) flag++;
         if(SuDokuY != 0) flag++;
         if(flag > 1){
-            if(filepath == null)
-                throw new IllegalArgumentException("Should only have one "
-                        + "non-zero argument.");
-            else{
+            if(filepath == null){
+                throw new IllegalArgumentException("<warning>Should only have one "
+                        + "non-zero argument.</warning>");
+            }else{
                 System.setOut(out);
-                System.out.println("Argument invalid.");
-                System.out.println(0);
-                System.out.println(0);
-                System.out.println(0);
+                //System.out.println("<warning>Argument invalid.</warning>");
             }
         }
         
         //Recursive computation of the solution. The printing of summary
         //follows.
         recurse(0);
-        printSummary(x);
+        //output XML header
+        System.out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
+        System.out.println("<response>");
+        printSummary(x);        
+        //Abe 28mar-1219 | Generating solution anyway
+       /* this.userSuDokuSolutions = 0;
+        this.userSuDokuXSolutions = 0;
+        this.userSuDokuYSolutions = 0;
+        */
+       
         
         //This is generated when the user-suppllied inputs exceed that of the
         //total number of solutions. Else the array is printed in the specified
@@ -296,11 +303,14 @@ public class SuDokuSolver {
             if(this.SuDokuSolutions < SuDoku ||
                     this.SuDokuXSolutions < SuDokuX ||
                     this.SuDokuYSolutions < SuDokuY){
-                System.out.println("Argument invalid.");
-                System.out.println(this.SuDokuSolutions);
+                System.out.println("<warning>Argument invalid.</warning>");
+               /* System.out.println(this.SuDokuSolutions);
                 System.out.println(this.SuDokuXSolutions);
-                System.out.println(this.SuDokuYSolutions);
+                System.out.println(this.SuDokuYSolutions);*/
             }else{
+                /* So if solution count is over sudoku{" "|x|y}-th solution,
+                 * just show the solution?
+                 */
                 for(int i = 0; i < this.solution.getDimension(); i++){
                     for(int j = 0; j < this.solution.getDimension(); j++){
                         System.out.print(this.solution.getXY(i, j)+" ");
@@ -309,6 +319,7 @@ public class SuDokuSolver {
                 }
             }
         }
+        System.out.println("</response>");
     }
     
     /***
@@ -374,11 +385,30 @@ public class SuDokuSolver {
      * @throws IOException When the file is not found.
      */
     public void printSummary(int x) throws IOException{
-        System.out.println("Filename: "+this.sifh.getFilepath());
-        System.out.println("Problem "+x+" out of "+this.sifh.getProblemCount());
-        System.out.println("SuDoku solutions: "+getSuDokuSolutions());
-        System.out.println("SuDokuX solutions: "+getSuDokuXSolutions());
-        System.out.println("SuDokuY solutions: "+getSuDokuYSolutions());
+        String tab = "     ";
+                
+         if( getSuDokuSolutions() > 0 )
+        {
+            System.out.println("<solution>");
+            System.out.println( tab + "<filename>" + this.sifh.getFilepath() +"</filename>");
+            System.out.println( tab + "<dimension>" + this.solution.getDimension() + "</dimension>");
+            System.out.println( tab + "<problem>");
+            System.out.println( tab + tab + "<order>" +  x + "</order>");
+            System.out.println( tab + tab + "<count>" +  this.sifh.getProblemCount() + "</count>");
+            System.out.println( tab + "</problem>");
+            System.out.println( tab + "<s_orig>" +  getSuDokuSolutions() + "</s_orig>");
+            System.out.println( tab + "<s_x>" + getSuDokuXSolutions() + "</s_x>");
+            System.out.println( tab + "<s_y>" + getSuDokuYSolutions() + "</s_y>");
+            System.out.println( tab + "<matrix>");          
+            for(int i = 0; i < this.solution.getDimension(); i++){                
+                for(int j = 0; j < this.solution.getDimension(); j++){
+                    System.out.print(this.solution.getXY(i, j)+" ");
+                }
+                System.out.println("");
+            }            
+            System.out.println( tab + "</matrix>");
+            System.out.println("</solution>");
+        }
     }
     
     /***
