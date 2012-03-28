@@ -15,7 +15,7 @@ public class SuDoku {
     private int dimension;
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Constrcutor">
+    //<editor-fold defaultstate="collapsed" desc="Constructor">
     /**
      * The defult constructor.
      * @param dimension The dimension of the SuDoku puzzle
