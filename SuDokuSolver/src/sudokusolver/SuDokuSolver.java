@@ -49,19 +49,29 @@ public class SuDokuSolver {
     }
     
     public SuDokuSolver(SuDoku puzzle){
-        this.problem = puzzle;
+        this.SuDokuSolutions = 0;
+        this.SuDokuXSolutions = 0;
+        this.SuDokuYSolutions = 0;
+        this.problem = new SuDoku(puzzle.getDimension());
+        this.solution = new SuDoku(puzzle.getDimension());
+        for(int i = 0; i < puzzle.getDimension(); i++)
+            for(int j = 0; j < puzzle.getDimension(); j++)
+                this.problem.setXY(i, j, puzzle.getXY(i, j));
     }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Cell checker methods">
+    public void setCellValue(int x, int y, int value){
+        this.problem.setXY(x, y, value);
+    }   
     /***
      * This checks the i-jth cell of the SuDoku puzzle if it violates the SuDoku
      * property or not.
      * @param i The row
      * @param j The column
-     * @return True if it does not violate the SuDoku property
+     * @return True if it$ does not violate the SuDoku property
      */
-    private boolean checkCell(int i, int j){
+    public boolean checkCell(int i, int j){
         int dim = this.problem.getDimension();
         if(!checkColumn(i, j, 0, dim)) return false;
         if(!checkRow(i, j, dim)) return false;
@@ -210,15 +220,13 @@ public class SuDokuSolver {
      * for the random problem that is given. It returns the solved problem.
      * @return The solved SuDoku problem
      */
-    public SuDoku problemSolve(){
-        this.userSuDokuSolutions = 0;
+    public int problemSolve(){
+        this.userSuDokuSolutions = 15;
         this.userSuDokuXSolutions = 0;
         this.userSuDokuYSolutions = 0;
         
-        this.userSuDokuSolutions = (int) Math.random() * 16 % 5;
         recurse(0);
-        this.problem.printSuDoku();
-        return this.problem;
+        return this.SuDokuSolutions;
     }
     
     /***

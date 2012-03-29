@@ -10,13 +10,13 @@ public class SuDokuSolverTester {
     public static void main(String[] args) throws IllegalArgumentException, 
             IOException {
 
-        int generateProblem = Integer.parseInt(args[0]);
+        /*int generateProblem = Integer.parseInt(args[0]);
         int problemNumber   = Integer.parseInt(args[1]);
         int SuDoku          = Integer.parseInt(args[2]);
         int SuDokuX         = Integer.parseInt(args[3]);
         int SuDokuY         = Integer.parseInt(args[4]);
         String fileIn       = args[5];
-        String fileOut      = args[6];
+        String fileOut      = args[6];*/
 
         //<editor-fold defaultstate="collapsed" desc="Uncomment these to enable command line arguments">
         //        int generateProblem = Integer.parseInt(args[0]);
@@ -28,13 +28,13 @@ public class SuDokuSolverTester {
         //        String fileOut = args[6];
         //</editor-fold>
         
-      /*  int generateProblem = 1;
+       int generateProblem = 1;
         int problemNumber = 1;
         int SuDoku = 1;
         int SuDokuX = 0;
         int SuDokuY = 0;
         String fileIn = "C:\\Users\\intel\\Documents\\puzzles\\newspaper.txt";
-        String fileOut = "C:\\Users\\intel\\Documents\\puzzles\\output.txt";*/
+        String fileOut = "C:\\Users\\intel\\Documents\\puzzles\\output.txt";
 
         
         switch (generateProblem){
@@ -45,6 +45,8 @@ public class SuDokuSolverTester {
             case 1:
                 SuDokuProblemGenerator sg = new SuDokuProblemGenerator(3);
                 sg.generate(true);
+                
+                //System.out.print(sg);
             break;
             default:
                 throw new IllegalArgumentException("Wrong argument! [0,1]");

@@ -19,7 +19,8 @@ public class SuDokuProblemGenerator{
     private int size;
     private int regionSize;
     private SuDoku puzzle;
-    
+    private SuDokuSolver solver;
+   
     SuDokuProblemGenerator(int size){
         regionSize = size;
         this.size = size * size;
@@ -42,22 +43,43 @@ public class SuDokuProblemGenerator{
             while(current % regionSize != 0) temp[current--] = 0;			
         temp[current] = 0;
         }
+        
+        int k;
+        int l;
+        int m;
+        int n;
+        int counter = 0;
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                sudoku[i][j]++;
+               k = ran.nextInt(size);
+               l = ran.nextInt(size);
+     
+               
+               
+                if (k == l || k<l)
+                {
+                        sudoku[i][j] = 0;
+                      
+                }
+               
+                
             }
 	}
+        
         convertPuzzle();
     }
 
     private boolean genRow(int row){
+        
         for(int col = 0; col < size; col++) {
             if(fillArrayList(row, col) == 0) return false;
             sudoku[row][col] = array.remove(ran.nextInt(array.size()));
         }
         return true;
     }
-	
+    
+    
+    
     private int fillArrayList(int row, int col){
 	boolean[] available = new boolean[size];
 	//flags
@@ -115,6 +137,8 @@ public class SuDokuProblemGenerator{
         return new String(buffer);
     }
     
+    
+    
     private void convertPuzzle(){
         this.puzzle = new SuDoku(this.size);
         for(int i = 0; i < this.size; i++){
@@ -122,6 +146,76 @@ public class SuDokuProblemGenerator{
                 this.puzzle.setXY(i, j, this.sudoku[i][j]);
             }
         }
-        this.puzzle.printSuDoku();
-    }
+                    //this.puzzle.printSuDoku();
+
+        SuDokuSolver ss = new SuDokuSolver(this.puzzle);
+        int numberofsolutions = 0;
+        int counter = 0;
+        int count = 1;
+        boolean cell = false;
+        int container = 1;
+        
+        
+        
+        while(numberofsolutions!=1)
+        {
+            count = 1;
+            container = 0;
+            int k = ran.nextInt(size);
+            int l = ran.nextInt(size);
+            while(container != 0)
+            {
+                        k = ran.nextInt(size);
+                        l = ran.nextInt(size);
+                        container = (puzzle.getXY(k,l));
+                        
+                        System.out.print(container+"\n");
+                        if(container == 0)
+                        {
+
+                            break;
+                            
+                        }
+
+            }
+                while(count != 9 || cell != true)
+                {
+                    
+                    ss.setCellValue(k,l,count);
+                    this.puzzle.setXY(k,l, count);
+                    cell = ss.checkCell(k, l);
+                    System.out.print(cell+" "+l+" "+k + "\n");
+                    
+                    //circuit breaker
+                    if(cell) break;
+                    count++;
+                }
+                
+               numberofsolutions = ss.problemSolve();
+               System.out.print("Number of Solutions : " + numberofsolutions + "\n");
+               this.puzzle.printSuDoku();
+               if(numberofsolutions == 1)
+                {
+                    break;
+                }
+               else if (numberofsolutions==0)
+               {
+                   ss.setCellValue(k, l, 0);
+                   this.puzzle.setXY(k, l, 0);
+                   k = ran.nextInt(size);
+                   l = ran.nextInt(size);
+                   ss.setCellValue(k, l, 0);
+                   this.puzzle.setXY(k, l, 0);
+                   k = ran.nextInt(size);
+                   l = ran.nextInt(size);
+                   ss.setCellValue(k, l, 0);
+                   this.puzzle.setXY(k, l, 0);
+                   
+               }
+               
+            }
+            
+    
+}
+    
 }
